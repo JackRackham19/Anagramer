@@ -12,7 +12,7 @@ namespace AnagramerConsole
         static void Main(string[] args)
         {
             var dictionary = Trie.ReadTrieAsync(@"C:\Users\Martin\OneDrive\Documents\Programming\12dicts-5.0\3esl.txt", s => s.ToLowerInvariant()).Result;
-            var results = Anagram.Find(args[0], dictionary);
+            var results = Anagram.Find(args[0], dictionary, 3);
             foreach(var entry in results)
             {
                 Console.WriteLine(entry);
