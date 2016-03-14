@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Anagramer.Utilities
@@ -27,31 +28,31 @@ namespace Anagramer.Utilities
             Length = 0u;
         }
         
-        public static async Task<Trie> ReadTrieAsync(string filePath)
+        public static async Task<Trie> ReadTrieAsync(string filePath, CancellationToken cancelToken = default(CancellationToken))
         {
             using(var reader = new StreamReader(filePath))
             {
-                return await ReadTrieAsync(reader, s => s);
+                return await ReadTrieAsync(reader, s => s, cancelToken);
             }
         }
 
-        public static async Task<Trie> ReadTrieAsync(string filePath, Func<string, string> clean)
+        public static async Task<Trie> ReadTrieAsync(string filePath, Func<string, string> clean, CancellationToken cancelToken = default(CancellationToken))
         {
             using (var reader = new StreamReader(filePath))
             {
-                return await ReadTrieAsync(reader, clean);
+                return await ReadTrieAsync(reader, clean, cancelToken);
             }
         }
 
-        public static async Task<Trie> ReadTrieAsync(StreamReader reader)
+        public static async Task<Trie> ReadTrieAsync(StreamReader reader, CancellationToken cancelToken = default(CancellationToken))
         {
-            return await ReadTrieAsync(reader, s => s);
+            return await ReadTrieAsync(reader, s => s, cancelToken);
         }
 
-        public static async Task<Trie> ReadTrieAsync(StreamReader reader, Func<string, string> clean)
+        public static async Task<Trie> ReadTrieAsync(StreamReader reader, Func<string, string> clean, CancellationToken cancelToken = default(CancellationToken))
         {
             var retval = new Trie();
-            while(!reader.EndOfStream)
+            while(!reader.EndOfStream && !cancelToken.IsCancellationRequested)
             {
                 var rawLine = await reader.ReadLineAsync();
                 retval.Add(clean(rawLine));

@@ -12,13 +12,17 @@
                 <Label DockPanel.Dock="Left"  Content="Dictionary:" />
             </DockPanel>
             <StackPanel Orientation="Horizontal">
-                <Label Content="Name:" />
-                <TextBox />
+                <Label Content="Subject:" />
+                <TextBox DataContext="{Binding Subject, Mode=OneWayToSource}" />
             </StackPanel>
         </StackPanel>
         <ScrollViewer>
-            <ListBox>
-                
+            <ListBox ItemsSource="{Binding Anagrams, Mode=OneWay}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Label Content="{Binding}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
             </ListBox>
         </ScrollViewer>
     </DockPanel>
