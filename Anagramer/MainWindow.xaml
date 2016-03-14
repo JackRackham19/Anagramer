@@ -10,14 +10,15 @@
         <StackPanel DockPanel.Dock="Top">
             <DockPanel>
                 <Label DockPanel.Dock="Left"  Content="Dictionary:" />
+                <TextBox Text="{Binding Path=Dictionary, Mode=TwoWay}" />
             </DockPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Subject:" />
-                <TextBox DataContext="{Binding Subject, Mode=OneWayToSource}" />
+                <TextBox Text="{Binding Path=Subject, Mode=OneWayToSource}" />
             </StackPanel>
         </StackPanel>
         <ScrollViewer>
-            <ListBox ItemsSource="{Binding Anagrams, Mode=OneWay}">
+            <ListBox ItemsSource="{Binding Path=Anagrams, Mode=OneWay}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Label Content="{Binding}" />

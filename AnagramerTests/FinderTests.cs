@@ -12,7 +12,7 @@ namespace AnagramerTests
 
         static FinderTests()
         {
-            dictionary = Trie.ReadTrieAsync(@"C:\Users\Martin\OneDrive\Documents\Programming\12dicts-5.0\3esl.txt", s => s.ToLowerInvariant()).Result;
+            dictionary = Trie.ReadTrieAsync(@"dictionary.txt", s => s.ToLowerInvariant()).Result;
         }
 
         [TestMethod]

@@ -26,6 +26,9 @@ namespace Anagramer.ViewModel
                 {
                     _subject = value;
                     PropertyChanged(this, SUBJECT_CHANGED_ARGS);
+                    Task.Run(() => {
+                        CalculateAnagrams();
+                    });
                 }
             }
         }
@@ -43,7 +46,6 @@ namespace Anagramer.ViewModel
                 if(value != _dictionary)
                 {
                     _dictionary = value;
-                    loadedDictionary = Trie.ReadTrieAsync(_dictionary).Result;
                     PropertyChanged(this, DICTIONARY_CHANGED_ARGS);
                 }
             }
@@ -79,12 +81,20 @@ namespace Anagramer.ViewModel
         public AnagramViewModel()
         {
             Anagrams = new ObservableCollection<string>();
+            _maxWords = 4;
+            _subject = string.Empty;
+            Task.Run(() =>
+            {
+                var defaultDictionary = "dictionary.txt";
+                loadedDictionary = LoadDictionay(defaultDictionary);
+                Dictionary = defaultDictionary;
+            });
         }
 
         public void CalculateAnagrams(CancellationToken cancelToken = default(CancellationToken))
         {
             var query = Anagram.Find(Subject, loadedDictionary, MaxWords);
-            Anagrams.Clear();
+            
             foreach(var result in query)
             {
                 if(!cancelToken.IsCancellationRequested)
@@ -97,6 +107,11 @@ namespace Anagramer.ViewModel
         public static async Task<Trie> LoadDictionaryAsync(string path, CancellationToken cancelToken = default(CancellationToken))
         {
             return await Trie.ReadTrieAsync(path, cancelToken);
+        }
+
+        public static Trie LoadDictionay(string path)
+        {
+            return LoadDictionaryAsync(path).Result;
         }
     }
 }
