@@ -128,7 +128,6 @@ namespace Anagramer.ViewModel
                         if (null != currentExecution && !currentExecution.IsCancellationRequested)
                         {
                             currentExecution.Cancel();
-                            Task.Delay(TimeSpan.FromMilliseconds(1000));
                         }
                         currentExecution = new CancellationTokenSource();
                         Task.Run(() => CalculateAnagrams(currentExecution.Token));
