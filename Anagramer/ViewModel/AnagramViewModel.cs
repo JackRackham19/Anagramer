@@ -157,7 +157,7 @@ namespace Anagramer.ViewModel
             {
                 if (!cancelToken.IsCancellationRequested)
                 {
-                    Application.Current.Dispatcher.Invoke(() => Anagrams.Add(result), DispatcherPriority.Background);
+                    Application.Current.Dispatcher.Invoke(() => Anagrams.Add(result), DispatcherPriority.Background, cancelToken);
                 }
             }
             Application.Current.Dispatcher.Invoke(() => { Status = "Done."; });
