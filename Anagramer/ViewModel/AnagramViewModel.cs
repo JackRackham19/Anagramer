@@ -26,9 +26,6 @@ namespace Anagramer.ViewModel
                 {
                     _subject = value;
                     PropertyChanged(this, SUBJECT_CHANGED_ARGS);
-                    Task.Run(() => {
-                        CalculateAnagrams();
-                    });
                 }
             }
         }
@@ -80,7 +77,7 @@ namespace Anagramer.ViewModel
         
         public AnagramViewModel()
         {
-            Anagrams = new ObservableCollection<string>();
+            Anagrams = new ObservableCollection<string>(new[] { "Foo", "bar"});
             _maxWords = 4;
             _subject = string.Empty;
             Task.Run(() =>
@@ -94,10 +91,11 @@ namespace Anagramer.ViewModel
         public void CalculateAnagrams(CancellationToken cancelToken = default(CancellationToken))
         {
             var query = Anagram.Find(Subject, loadedDictionary, MaxWords);
-            
-            foreach(var result in query)
+            Anagrams.Clear();
+                                    
+            foreach (var result in query)
             {
-                if(!cancelToken.IsCancellationRequested)
+                if (!cancelToken.IsCancellationRequested)
                 {
                     Anagrams.Add(result);
                 }

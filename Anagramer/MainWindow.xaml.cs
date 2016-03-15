@@ -24,7 +24,9 @@ namespace Anagramer
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new AnagramViewModel();
+            var anagramVM = new AnagramViewModel();
+            DataContext = anagramVM;
+            resultsView.ItemsSource = anagramVM.Anagrams;
         }
     }
 }
