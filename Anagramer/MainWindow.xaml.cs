@@ -1,4 +1,5 @@
 ﻿using Anagramer.ViewModel;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,9 +25,24 @@ namespace Anagramer
         public MainWindow()
         {
             InitializeComponent();
-            var anagramVM = new AnagramViewModel();
-            DataContext = anagramVM;
-            resultsView.ItemsSource = anagramVM.Anagrams;
+            DataContext = new AnagramViewModel(); ;
+        }
+        
+        private void dictionaryBrowse_Click(object sender, RoutedEventArgs e)
+        {
+            var vm = DataContext as AnagramViewModel;
+            var dialog = new OpenFileDialog();
+            
+            if(true == dialog.ShowDialog())
+            {
+                vm.Dictionary = dialog.FileName;
+            }
+        }
+
+        private void submit_Click(object sender, RoutedEventArgs e)
+        {
+            var vm = DataContext as AnagramViewModel;
+            Task.Run(() => vm.CalculateAnagrams());            
         }
     }
 }

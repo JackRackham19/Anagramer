@@ -16,7 +16,7 @@ namespace Anagramer.Utilities
         private static IEnumerable<string> FindHelper(string current, string source, Trie.Node currentNode, Trie.Node root, uint maxWords, uint currentWords)
         {
             var cleaned = source.ToLowerInvariant();
-            var distinctLetters = cleaned.Distinct();  
+            var distinctLetters = cleaned.Distinct();
                         
             foreach (var letter in distinctLetters)
             {
@@ -25,7 +25,7 @@ namespace Anagramer.Utilities
                 {
                     continue;
                 }
-                var removed = cleaned.Remove(firstIndex, 1);                
+                var removed = cleaned.Remove(firstIndex, 1);
                 var subResults = FindHelper(current + letter, removed, currentNode.Children[letter], root, maxWords, currentWords);
                 foreach(var result in subResults)
                 {
